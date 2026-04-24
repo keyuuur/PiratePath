@@ -788,6 +788,1024 @@
           font-size: 0.86rem;
         }
       }
+
+      :root {
+        --lab-bg: #051622;
+        --lab-bg-2: #0b2a3a;
+        --lab-panel: #0c3540;
+        --lab-panel-dark: #061d2b;
+        --parchment: #efe0bf;
+        --parchment-2: #f7ecd5;
+        --parchment-3: #dfc49a;
+        --ink: #10233b;
+        --ink-soft: #4e5a63;
+        --brass: #b88935;
+        --brass-light: #e1bf70;
+        --teal: #0d5863;
+        --teal-dark: #073943;
+        --green: #087d4f;
+        --green-dark: #055e3c;
+        --red-path: #d8342a;
+        --blue-displacement: #1268c4;
+        --paper-line: rgba(78, 54, 23, 0.10);
+        --panel-border: rgba(73, 48, 19, 0.42);
+        --shadow-deep: 0 20px 46px rgba(0,0,0,0.38);
+        --shadow-soft: 0 8px 20px rgba(40, 25, 10, 0.18);
+      }
+
+      body {
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 10% 15%, rgba(13, 88, 99, 0.38), transparent 24%),
+          radial-gradient(circle at 88% 18%, rgba(184, 137, 53, 0.18), transparent 20%),
+          linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+          linear-gradient(135deg, var(--lab-bg), var(--lab-bg-2) 45%, #102a39);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 34px 34px;
+        opacity: 0.18;
+      }
+
+      #app {
+        position: relative;
+        padding: 18px 20px 28px;
+      }
+
+      .screen {
+        max-width: 1620px;
+      }
+
+      .card,
+      .prompt-box,
+      .route-card,
+      .summary-card,
+      .metric-card,
+      .check-list li,
+      fieldset,
+      .review-item {
+        border-radius: 14px;
+        background:
+          linear-gradient(var(--paper-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--paper-line) 1px, transparent 1px),
+          linear-gradient(180deg, var(--parchment-2), var(--parchment));
+        background-size: 22px 22px, 22px 22px, auto;
+        border: 2px solid var(--panel-border);
+        box-shadow: var(--shadow-soft), inset 0 0 0 1px rgba(255,255,255,0.36);
+      }
+
+      button,
+      .button-like {
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        min-height: 52px;
+        box-shadow: 0 5px 0 rgba(39, 27, 12, 0.22);
+      }
+
+      .btn-primary {
+        background: linear-gradient(180deg, #0b8d58, #066c43);
+        color: #fff;
+        border: 2px solid rgba(6, 84, 54, 0.8);
+      }
+
+      .btn-secondary {
+        background: linear-gradient(180deg, #f7f7f3, #e5e2d9);
+        color: var(--ink);
+        border: 2px solid rgba(25, 54, 72, 0.25);
+      }
+
+      .btn-warning {
+        background: linear-gradient(180deg, #edc57b, #cf9940);
+        color: #3f2400;
+        border: 2px solid rgba(113, 70, 14, 0.6);
+      }
+
+      .lab-screen {
+        position: relative;
+      }
+
+      .lab-topbar {
+        position: relative;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 18px;
+        padding: 10px 14px 10px 18px;
+        border-radius: 16px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0)),
+          linear-gradient(135deg, var(--lab-panel), var(--lab-panel-dark));
+        border: 2px solid rgba(184, 137, 53, 0.55);
+        box-shadow: var(--shadow-deep);
+        overflow: hidden;
+      }
+
+      .lab-topbar::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, var(--brass-light), transparent);
+        opacity: 0.9;
+      }
+
+      .lab-topbar-main {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+      }
+
+      .lab-emblem {
+        width: 90px;
+        height: 90px;
+        flex: 0 0 90px;
+        border-radius: 50%;
+        padding: 6px;
+        background:
+          radial-gradient(circle at center, #0a2a34 0 58%, transparent 59%),
+          conic-gradient(from 0deg, var(--brass-light), #805d25, var(--brass-light), #805d25, var(--brass-light));
+        box-shadow: inset 0 0 0 2px rgba(255,255,255,0.18), 0 12px 24px rgba(0,0,0,0.28);
+        position: relative;
+      }
+
+      .lab-emblem::before {
+        content: "☠";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: rgba(255,244,221,0.85);
+        font-size: 1.8rem;
+        z-index: 0;
+      }
+
+      .lab-emblem img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid rgba(255,246,223,0.8);
+      }
+
+      .lab-title-wrap {
+        min-width: 0;
+      }
+
+      .lab-title {
+        margin: 0;
+        color: #fff2d2;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.8rem, 2.8vw, 3rem);
+        line-height: 1.05;
+        letter-spacing: 0.01em;
+        text-shadow: 0 2px 0 rgba(0,0,0,0.28);
+      }
+
+      .lab-subtitle {
+        margin-top: 5px;
+        color: rgba(255,244,221,0.82);
+        font-size: 0.98rem;
+      }
+
+      .lab-title-block {
+        min-width: 0;
+      }
+
+      .lab-title-block h2 {
+        margin: 0;
+        color: #fff2d2;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.7rem, 2.6vw, 2.8rem);
+        line-height: 1.05;
+      }
+
+      .lab-topbar-panels,
+      .lab-score-panels {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .lab-stat-panel {
+        min-width: 132px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        color: #fff1d0;
+        background: linear-gradient(180deg, #0a3f4a, #082d35);
+        border: 2px solid rgba(184, 137, 53, 0.65);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+        text-align: center;
+      }
+
+      .lab-stat-label {
+        display: block;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.86;
+        margin-bottom: 3px;
+      }
+
+      .lab-stat-value {
+        display: block;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+
+      .lab-status-row {
+        display: flex;
+        align-items: stretch;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .lab-status-plaque {
+        min-width: 160px;
+        padding: 10px 18px;
+        border-radius: 10px;
+        color: #fff1d0;
+        background: linear-gradient(180deg, #0a3f4a, #082d35);
+        border: 2px solid rgba(184, 137, 53, 0.65);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+        text-align: center;
+      }
+
+      .lab-status-label {
+        display: block;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        opacity: 0.86;
+        margin-bottom: 3px;
+      }
+
+      .lab-status-value {
+        display: block;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.1rem;
+      }
+
+      .lab-emergency-btn {
+        min-width: 240px;
+        padding-inline: 22px;
+      }
+
+      .lab-stage {
+        position: relative;
+        margin: 0 auto;
+        padding: 24px 28px 82px;
+        border-radius: 20px;
+        background:
+          linear-gradient(var(--paper-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--paper-line) 1px, transparent 1px),
+          radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 36%),
+          linear-gradient(180deg, #f3e6ca, #e8d3ac);
+        background-size: 24px 24px, 24px 24px, auto, auto;
+        border: 3px solid rgba(19, 55, 61, 0.92);
+        box-shadow: var(--shadow-deep);
+        overflow: hidden;
+      }
+
+      .lab-stage::before,
+      .lab-stage::after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        width: 16px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(7,57,67,0.95), rgba(14,89,98,0.4), rgba(7,57,67,0.95));
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .lab-stage::before { left: 10px; }
+      .lab-stage::after { right: 10px; }
+
+      .mission-card {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: center;
+        padding: 26px 28px;
+        margin-bottom: 18px;
+      }
+
+      .mission-copy {
+        position: relative;
+        z-index: 2;
+      }
+
+      .mission-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        margin-bottom: 14px;
+        background: linear-gradient(180deg, #0f5962, #073641);
+        color: #fff6df;
+        border: 2px solid rgba(194, 147, 60, 0.72);
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-weight: 800;
+        box-shadow: 0 4px 0 rgba(58, 36, 11, 0.25);
+      }
+
+      .mission-ribbon {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        margin-bottom: 14px;
+        background: linear-gradient(180deg, #0f5962, #073641);
+        color: #fff6df;
+        border: 2px solid rgba(194, 147, 60, 0.72);
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-weight: 800;
+        box-shadow: 0 4px 0 rgba(58, 36, 11, 0.25);
+      }
+
+      .mission-card h1 {
+        margin: 0 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1.08;
+      }
+
+      .mission-card p {
+        margin: 0;
+        font-size: 1.1rem;
+        max-width: 860px;
+      }
+
+      .mission-watermark {
+        position: absolute;
+        right: 150px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        border: 3px solid rgba(130, 106, 66, 0.12);
+        opacity: 0.35;
+        pointer-events: none;
+      }
+
+      .mission-watermark::before,
+      .mission-watermark::after {
+        content: "";
+        position: absolute;
+        inset: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(130, 106, 66, 0.12);
+      }
+
+      .mission-watermark::before {
+        width: 3px;
+        height: 86%;
+      }
+
+      .mission-watermark::after {
+        width: 86%;
+        height: 3px;
+      }
+
+      .mission-mascot {
+        position: relative;
+        z-index: 2;
+        width: 96px;
+        height: 96px;
+        padding: 6px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fffef3, #d8c08b);
+        border: 3px solid rgba(184, 137, 53, 0.9);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+      }
+
+      .mission-mascot .small-mascot {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .mission-mascot .small-mascot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .mission-compass {
+        position: absolute;
+        inset: -34px;
+        border-radius: 50%;
+        opacity: 0.16;
+        background:
+          linear-gradient(90deg, transparent 49.2%, rgba(79, 56, 24, 0.75) 49.2% 50.8%, transparent 50.8%),
+          linear-gradient(transparent 49.2%, rgba(79, 56, 24, 0.75) 49.2% 50.8%, transparent 50.8%);
+        pointer-events: none;
+      }
+
+      .mission-compass::before,
+      .mission-compass::after {
+        content: "";
+        position: absolute;
+        inset: 18%;
+        border-radius: 50%;
+        border: 2px solid rgba(79, 56, 24, 0.5);
+      }
+
+      .mission-compass::after {
+        inset: 32%;
+      }
+
+      .activity-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.95fr);
+        gap: 18px;
+        margin-top: 16px;
+      }
+
+      .lab-card {
+        position: relative;
+        padding: 22px 20px 20px;
+      }
+
+      .lab-section-plaque {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 18px;
+        margin: -34px 0 14px;
+        background: linear-gradient(180deg, #0f5962, #073641);
+        color: #fff6df;
+        border: 2px solid rgba(194, 147, 60, 0.72);
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        font-weight: 800;
+        box-shadow: 0 4px 0 rgba(58, 36, 11, 0.25);
+      }
+
+      .lab-route-card .map-shell,
+      .lab-measurements-card .map-shell,
+      .route-card .map-shell {
+        min-height: 286px;
+        border-radius: 10px;
+        border: 2px solid rgba(31, 74, 86, 0.35);
+        background:
+          linear-gradient(rgba(20, 49, 65, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 49, 65, 0.06) 1px, transparent 1px),
+          #f5ead1;
+        background-size: 28px 28px, 28px 28px, auto;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+      }
+
+      .lab-map-host {
+        margin-top: 8px;
+      }
+
+      .lab-map-instruction {
+        margin: 12px 0 0;
+        color: var(--ink);
+        font-size: 1.02rem;
+      }
+
+      .lab-measurement-block + .lab-measurement-block {
+        margin-top: 18px;
+      }
+
+      .measurement-label-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+
+      .measurement-label-row label,
+      .measurement-label-row strong {
+        font-size: 1rem;
+      }
+
+      .swatch-line {
+        width: 30px;
+        height: 4px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+
+      .swatch-line.distance { background: var(--red-path); }
+      .swatch-line.displacement { background: var(--blue-displacement); }
+
+      .measurement-input-wrap {
+        display: grid;
+        grid-template-columns: 1fr 54px;
+        border: 2px solid rgba(31, 74, 86, 0.25);
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.72);
+      }
+
+      .measurement-input-wrap input {
+        border: 0;
+        background: transparent;
+        padding: 13px 14px;
+        font-size: 1.02rem;
+        border-radius: 0;
+      }
+
+      .measurement-input-wrap input:focus {
+        box-shadow: none;
+      }
+
+      .unit-box {
+        display: grid;
+        place-items: center;
+        border-left: 1px solid rgba(31, 74, 86, 0.22);
+        background: rgba(255,255,255,0.35);
+        font-weight: 700;
+      }
+
+      .lab-action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .support-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 1.05fr 0.9fr;
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .parchment-card {
+        background:
+          linear-gradient(var(--paper-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--paper-line) 1px, transparent 1px),
+          linear-gradient(180deg, var(--parchment-2), var(--parchment));
+        background-size: 22px 22px, 22px 22px, auto;
+      }
+
+      .lab-main-column {
+        position: relative;
+        z-index: 1;
+      }
+
+      .activity-panel {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(330px, 0.9fr);
+        gap: 18px;
+        padding: 20px;
+      }
+
+      .compare-activity-panel {
+        grid-template-columns: minmax(0, 1.22fr) minmax(360px, 0.95fr);
+      }
+
+      .measurement-panel {
+        padding: 20px;
+      }
+
+      .measurement-box {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+      }
+
+      .measurement-header {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      .measurement-note {
+        font-weight: 500;
+        color: var(--ink-soft);
+      }
+
+      .measurement-unit {
+        display: grid;
+        place-items: center;
+        border-left: 1px solid rgba(31, 74, 86, 0.22);
+        background: rgba(255,255,255,0.35);
+        font-weight: 700;
+      }
+
+      .support-card {
+        position: relative;
+        padding: 18px 18px 16px;
+        min-height: 178px;
+      }
+
+      .support-card-title {
+        margin: 0 0 12px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.08rem;
+        font-weight: 700;
+      }
+
+      .legend-line-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .distance-line {
+        background: var(--red-path);
+      }
+
+      .displacement-line {
+        background: var(--blue-displacement);
+      }
+
+      .support-copy {
+        font-size: 0.98rem;
+        line-height: 1.5;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+
+      .support-copy p {
+        margin: 0 0 10px;
+      }
+
+      .distance-text {
+        color: var(--red-path);
+      }
+
+      .displacement-text {
+        color: var(--blue-displacement);
+      }
+
+      .support-card h3 {
+        margin: 0 0 12px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1.05rem;
+      }
+
+      .support-card::after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        bottom: 8px;
+        font-size: 3.6rem;
+        opacity: 0.12;
+        pointer-events: none;
+      }
+
+      .support-card.legend-card::after { content: "🗺"; }
+      .support-card.concept-card::after { content: "🔭"; }
+      .support-card.units-card::after { content: "📐"; }
+
+      .legend-item {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .legend-item + .legend-item {
+        margin-top: 14px;
+      }
+
+      .legend-line {
+        width: 28px;
+        height: 4px;
+        margin-top: 10px;
+        border-radius: 999px;
+      }
+
+      .legend-line.distance { background: var(--red-path); }
+      .legend-line.displacement { background: var(--blue-displacement); }
+
+      .concept-copy p,
+      .units-copy p {
+        margin: 0 0 10px;
+        font-size: 1rem;
+        line-height: 1.55;
+      }
+
+      .concept-distance { color: var(--red-path); font-weight: 800; }
+      .concept-displacement { color: var(--blue-displacement); font-weight: 800; }
+
+      .lab-prop {
+        position: absolute;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.85;
+      }
+
+      .lab-prop-left {
+        left: -16px;
+        top: 100px;
+        width: 110px;
+        bottom: 60px;
+      }
+
+      .lab-prop-right {
+        right: -10px;
+        top: 98px;
+        width: 122px;
+        bottom: 72px;
+      }
+
+      .lab-glass-tower,
+      .lab-flask,
+      .lab-lantern,
+      .lab-scroll,
+      .lab-telescope {
+        position: absolute;
+      }
+
+      .lab-glass-tower {
+        left: 12px;
+        top: 8px;
+        width: 54px;
+        height: 220px;
+        border-radius: 28px 28px 18px 18px;
+        border: 3px solid rgba(217, 190, 132, 0.55);
+        background:
+          linear-gradient(180deg, transparent 0 54%, rgba(49, 214, 223, 0.38) 54% 100%),
+          linear-gradient(90deg, rgba(255,255,255,0.2), transparent 32%);
+        box-shadow: inset 0 0 18px rgba(255,255,255,0.1);
+      }
+
+      .lab-flask {
+        border: 3px solid rgba(217, 190, 132, 0.55);
+        background:
+          linear-gradient(180deg, transparent 0 48%, rgba(43, 187, 196, 0.45) 48% 100%),
+          linear-gradient(90deg, rgba(255,255,255,0.16), transparent 30%);
+      }
+
+      .lab-flask-large {
+        left: 0;
+        bottom: 0;
+        width: 72px;
+        height: 96px;
+        border-radius: 22px 22px 28px 28px;
+      }
+
+      .lab-flask-small {
+        left: 58px;
+        bottom: 24px;
+        width: 42px;
+        height: 60px;
+        border-radius: 18px 18px 22px 22px;
+      }
+
+      .lab-lantern {
+        right: 6px;
+        top: 12px;
+        width: 72px;
+        height: 148px;
+        border-radius: 18px;
+        border: 3px solid rgba(142, 102, 35, 0.78);
+        background:
+          radial-gradient(circle at center, rgba(255,220,144,0.88), rgba(255,176,64,0.36) 38%, transparent 68%),
+          linear-gradient(180deg, rgba(43,32,20,0.85), rgba(110,78,28,0.5), rgba(43,32,20,0.85));
+        box-shadow: 0 0 26px rgba(255, 190, 95, 0.28);
+      }
+
+      .lab-scroll {
+        right: 14px;
+        top: 178px;
+        width: 84px;
+        height: 104px;
+        border-radius: 8px;
+        border: 2px solid rgba(111, 78, 30, 0.56);
+        background:
+          linear-gradient(rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(245, 230, 188, 0.95), rgba(225, 202, 152, 0.95));
+        background-size: 12px 12px, 12px 12px, auto;
+        transform: rotate(4deg);
+      }
+
+      .lab-telescope {
+        right: 0;
+        bottom: 10px;
+        width: 118px;
+        height: 28px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #75521d, #c39547, #7a5722);
+        transform: rotate(-34deg);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      }
+
+      .chalk-formula {
+        position: absolute;
+        top: 26px;
+        left: 8px;
+        color: rgba(233, 231, 213, 0.5);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2rem;
+        transform: rotate(-8deg);
+      }
+
+      .flask-shape,
+      .lantern-glow,
+      .telescope-shape,
+      .blueprint-note {
+        position: absolute;
+      }
+
+      .flask-shape {
+        left: 0;
+        bottom: 50px;
+        width: 84px;
+        height: 180px;
+        border: 3px solid rgba(222, 194, 136, 0.5);
+        border-radius: 22px 22px 32px 32px;
+        background:
+          linear-gradient(180deg, transparent 0 52%, rgba(23, 172, 191, 0.56) 52% 100%),
+          linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+      }
+
+      .lantern-glow {
+        right: 10px;
+        top: 38px;
+        width: 82px;
+        height: 180px;
+        border-radius: 44px;
+        background:
+          radial-gradient(circle at center, rgba(255,218,138,0.78), rgba(255,176,64,0.35) 42%, transparent 72%);
+        filter: blur(2px);
+      }
+
+      .telescope-shape {
+        right: 2px;
+        bottom: 72px;
+        width: 118px;
+        height: 30px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #75521d, #c39547, #7a5722);
+        transform: rotate(-32deg);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      }
+
+      .blueprint-note {
+        right: 0;
+        top: 220px;
+        width: 88px;
+        height: 116px;
+        border: 2px solid rgba(103, 73, 30, 0.55);
+        border-radius: 6px;
+        background:
+          linear-gradient(rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(245, 230, 188, 0.95), rgba(225, 202, 152, 0.95));
+        background-size: 12px 12px, 12px 12px, auto;
+        transform: rotate(4deg);
+      }
+
+      .lab-ruler-footer {
+        position: absolute;
+        left: 84px;
+        right: 84px;
+        bottom: 18px;
+        height: 48px;
+        border: 2px solid rgba(103, 63, 15, 0.8);
+        border-radius: 6px;
+        background:
+          repeating-linear-gradient(90deg, transparent 0 44px, rgba(76, 46, 7, 0.26) 44px 46px),
+          linear-gradient(180deg, #c89542, #a26f23);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-evenly;
+        gap: 6px;
+        padding-bottom: 5px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        color: #412400;
+        letter-spacing: 0.04em;
+      }
+
+      .hint-banner {
+        background: linear-gradient(180deg, #fff6d8, #f2dd9a);
+        border-color: rgba(184, 137, 53, 0.86);
+        color: #6a4800;
+      }
+
+      .radio-row,
+      .mc-option {
+        background: rgba(255,255,255,0.48);
+        border-color: rgba(31, 74, 86, 0.18);
+      }
+
+      .route-card {
+        padding: 16px;
+      }
+
+      .route-card h3 {
+        font-family: Georgia, "Times New Roman", serif;
+      }
+
+      .result-banner.good {
+        background: linear-gradient(180deg, rgba(230,247,238,0.95), rgba(194,233,208,0.9));
+      }
+
+      .result-banner.bad {
+        background: linear-gradient(180deg, rgba(255,240,239,0.95), rgba(247,210,203,0.9));
+      }
+
+      @media (max-width: 1100px) {
+        .lab-prop-left,
+        .lab-prop-right,
+        .lab-ruler-footer {
+          opacity: 0.25;
+        }
+
+        .activity-grid,
+        .support-grid,
+        .activity-panel,
+        .compare-activity-panel {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .lab-topbar {
+          grid-template-columns: 1fr;
+        }
+
+        .lab-status-row {
+          justify-content: flex-start;
+        }
+
+        .mission-card {
+          grid-template-columns: 1fr;
+        }
+
+        .mission-watermark,
+        .lab-prop-left,
+        .lab-prop-right {
+          display: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .lab-stage {
+          padding: 16px 14px 72px;
+        }
+
+        .lab-topbar-main {
+          align-items: flex-start;
+        }
+
+        .lab-emblem {
+          width: 74px;
+          height: 74px;
+          flex-basis: 74px;
+        }
+
+        .mission-mascot {
+          display: none;
+        }
+
+        .lab-action-row,
+        .controls {
+          grid-template-columns: 1fr;
+          flex-direction: column;
+        }
+
+        .lab-ruler-footer {
+          left: 18px;
+          right: 18px;
+          font-size: 0.82rem;
+          letter-spacing: 0.08em;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1286,17 +2304,26 @@
         const total = getTotalScore();
         const showEmergency = ["round", "feedback", "levelEnd", "reflection"].includes(state.mode);
         return `
-          <div class="topbar">
-            <div>
-              <h2>Pirate Path: Distance vs Displacement</h2>
-              <div class="subtle" style="color: rgba(255,255,255,0.82); margin-top: 4px;">${subtitle}</div>
+          <div class="topbar lab-topbar">
+            <div class="lab-emblem" aria-hidden="true">
+              <img src="${MASCOT_DATA_URI}" alt="">
             </div>
-            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
-              ${showEmergency ? `<button class="btn-warning" onclick="submitEmergencyNow()" ${state.submission.status === "submitting" ? "disabled" : ""}>Emergency Submit Now</button>` : ""}
-              <div class="score-pill-wrap">
-                <div class="score-pill">Score: ${total.score} / ${total.max}</div>
-                <div class="score-pill">Level ${state.levelIndex + 1}</div>
+            <div class="lab-title-block">
+              <h2>Pirate Path: Distance vs Displacement</h2>
+              <div class="lab-subtitle">${subtitle}</div>
+            </div>
+            <div class="lab-topbar-panels">
+              <div class="lab-score-panels">
+                <div class="lab-stat-panel">
+                  <span class="lab-stat-label">Score</span>
+                  <span class="lab-stat-value">${total.score} / ${total.max}</span>
+                </div>
+                <div class="lab-stat-panel">
+                  <span class="lab-stat-label">Level</span>
+                  <span class="lab-stat-value">${state.levelIndex + 1}</span>
+                </div>
               </div>
+              ${showEmergency ? `<button class="btn-warning lab-emergency-btn" onclick="submitEmergencyNow()" ${state.submission.status === "submitting" ? "disabled" : ""}>Emergency Submit Now</button>` : ""}
             </div>
           </div>
         `;
@@ -1484,19 +2511,49 @@
             ${
               renderTopbar(subtitle)
             }
-            <div class="card">
-              <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start; flex-wrap:wrap;">
-                <div>
-                  <h2 class="panel-title">${round.title}</h2>
-                  <p class="subtle">${round.prompt}</p>
-                  ${round.hintText ? `<div class="hint-banner">${round.hintText}</div>` : ""}
-                </div>
+            <div class="card mission-card">
+              <div class="mission-copy">
+                <div class="mission-pill">Level ${state.levelIndex + 1} • Round ${state.roundIndex + 1}</div>
+                <h2 class="panel-title">${round.title}</h2>
+                <p class="subtle">${round.prompt}</p>
+                ${round.hintText ? `<div class="hint-banner">${round.hintText}</div>` : ""}
+              </div>
+              <div class="mission-mascot">
+                <div class="mission-compass" aria-hidden="true"></div>
                 <div class="small-mascot"><img src="${MASCOT_DATA_URI}" alt="Pirate mascot"></div>
               </div>
             </div>
-            ${state.submission.message ? `<div class="card">${renderSubmissionStatus()}</div>` : ""}
-            <div class="card">
-              ${roundCard}
+            ${state.submission.message ? `<div class="card parchment-card">${renderSubmissionStatus()}</div>` : ""}
+            <div class="lab-stage">
+              <div class="lab-prop lab-prop-left" aria-hidden="true">
+                <div class="lab-glass-tower"></div>
+                <div class="lab-flask lab-flask-large"></div>
+                <div class="lab-flask lab-flask-small"></div>
+              </div>
+              <div class="lab-prop lab-prop-right" aria-hidden="true">
+                <div class="lab-lantern"></div>
+                <div class="lab-scroll"></div>
+                <div class="lab-telescope"></div>
+              </div>
+              <div class="lab-main-column">
+                <div class="activity-grid ${level.type === "compare" ? "compare-layout" : ""}">
+                  ${roundCard}
+                </div>
+                ${renderRoundSupportCards(level.type)}
+                <div class="lab-ruler-footer" aria-hidden="true">
+                  <span>0</span>
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
+                  <span>6</span>
+                  <span>7</span>
+                  <span>8</span>
+                  <span>9</span>
+                  <span>meters</span>
+                </div>
+              </div>
             </div>
           </div>
         `;
@@ -1505,22 +2562,30 @@
       function renderNumericRound(round) {
         const saved = getAnswersForRound();
         return `
-          <div class="split">
+          <div class="activity-panel parchment-card">
             <div>
+              <div class="lab-section-plaque">Main Hallway (Route Map)</div>
               <div id="mainMap" class="map-host"></div>
               <p class="map-caption">Watch the pirate move. Then enter the distance and displacement.</p>
             </div>
-            <div>
-              <div class="prompt-box">
-                <h3>Type your answers</h3>
+            <div class="measurement-panel parchment-card">
+              <div class="lab-section-plaque">Measurements</div>
+              <div class="prompt-box measurement-box">
+                <div class="measurement-header">Type your answers</div>
                 <div class="answer-stack">
                   <div class="answer-row">
-                    <label for="distanceInput">Distance</label>
-                    <input id="distanceInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.distance || "")}" oninput="storeRoundNumericAnswer('distance', this.value)" disabled>
+                    <label for="distanceInput">Distance <span class="measurement-note">(total path taken)</span></label>
+                    <div class="measurement-input-wrap">
+                      <input id="distanceInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.distance || "")}" oninput="storeRoundNumericAnswer('distance', this.value)" disabled placeholder="Enter meters">
+                      <span class="measurement-unit">m</span>
+                    </div>
                   </div>
                   <div class="answer-row">
-                    <label for="displacementInput">Displacement</label>
-                    <input id="displacementInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.displacement || "")}" oninput="storeRoundNumericAnswer('displacement', this.value)" disabled>
+                    <label for="displacementInput">Displacement <span class="measurement-note">(straight-line change)</span></label>
+                    <div class="measurement-input-wrap">
+                      <input id="displacementInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.displacement || "")}" oninput="storeRoundNumericAnswer('displacement', this.value)" disabled placeholder="Enter meters">
+                      <span class="measurement-unit">m</span>
+                    </div>
                   </div>
                 </div>
                 <div class="helper-note">Inputs unlock after the animation finishes.</div>
@@ -1585,8 +2650,9 @@
         const focusMode = ui.focusedRoute || "both";
         const saved = getAnswersForRound();
         return `
-          <div class="split">
+          <div class="activity-panel parchment-card compare-activity-panel">
             <div>
+              <div class="lab-section-plaque">Route Maps</div>
               <div class="compare-focus-row">
                 <button class="${focusMode === "both" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('both')">Show Both Routes</button>
                 <button class="${focusMode === "A" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('A')">Focus Route 1</button>
@@ -1605,8 +2671,9 @@
                 </div>
               </div>
             </div>
-            <div>
-              <div class="prompt-box">
+            <div class="measurement-panel parchment-card">
+              <div class="lab-section-plaque">Compare the Routes</div>
+              <div class="prompt-box measurement-box">
                 <fieldset id="compareFieldset" disabled>
                   <legend>Compare the routes</legend>
                   <div class="option-stack">
@@ -1621,22 +2688,25 @@
 
                     <div>
                       <strong>2. Distance for Route 1</strong>
-                      <div style="margin-top:8px;">
-                        <input id="route1DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route1Distance || ""}" oninput="storeCompareAnswers()">
+                      <div class="measurement-input-wrap" style="margin-top:8px;">
+                        <input id="route1DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route1Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <span class="measurement-unit">m</span>
                       </div>
                     </div>
 
                     <div>
                       <strong>3. Distance for Route 2</strong>
-                      <div style="margin-top:8px;">
-                        <input id="route2DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route2Distance || ""}" oninput="storeCompareAnswers()">
+                      <div class="measurement-input-wrap" style="margin-top:8px;">
+                        <input id="route2DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route2Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <span class="measurement-unit">m</span>
                       </div>
                     </div>
 
                     <div>
                       <strong>4. What was the displacement for both routes?</strong>
-                      <div style="margin-top:8px;">
-                        <input id="sharedDisplacementInput" type="number" inputmode="numeric" min="0" value="${saved.sharedDisplacement || ""}" oninput="storeCompareAnswers()">
+                      <div class="measurement-input-wrap" style="margin-top:8px;">
+                        <input id="sharedDisplacementInput" type="number" inputmode="numeric" min="0" value="${saved.sharedDisplacement || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <span class="measurement-unit">m</span>
                       </div>
                     </div>
                   </div>
@@ -1647,6 +2717,39 @@
                   <button id="checkBtn" class="btn-primary" onclick="checkCurrentRound()" disabled>Check Answer</button>
                 </div>
               </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderRoundSupportCards(levelType) {
+        const conceptText = levelType === "compare"
+          ? `
+              <p><strong class="distance-text">Distance</strong> can be different for two routes even when both routes begin and end at the same places.</p>
+              <p><strong class="displacement-text">Displacement</strong> stays the same if the start and finish points stay the same.</p>
+            `
+          : `
+              <p><strong class="distance-text">Distance</strong> is how much ground was covered.</p>
+              <p><strong class="displacement-text">Displacement</strong> is how far the pirate is from where they started, in a straight line.</p>
+            `;
+
+        return `
+          <div class="support-grid">
+            <div class="support-card parchment-card">
+              <div class="support-card-title">Legend</div>
+              <div class="legend-line-item"><span class="legend-line distance-line"></span>Distance (Total Path)</div>
+              <div class="support-copy">Actual path the pirate travels</div>
+              <div class="legend-line-item"><span class="legend-line displacement-line"></span>Displacement (Straight-Line)</div>
+              <div class="support-copy">Shortest straight-line from start to finish</div>
+            </div>
+            <div class="support-card parchment-card">
+              <div class="support-card-title">Concept Check</div>
+              <div class="support-copy">${conceptText}</div>
+            </div>
+            <div class="support-card parchment-card">
+              <div class="support-card-title">Units</div>
+              <div class="support-copy">All measurements are in meters (m).</div>
+              <div class="support-copy">Use whole numbers or decimals.</div>
             </div>
           </div>
         `;
