@@ -1711,6 +1711,482 @@
         letter-spacing: 0.04em;
       }
 
+      .title-stage {
+        position: relative;
+        max-width: 1620px;
+        margin: 0 auto;
+        padding: 18px 34px 92px;
+      }
+
+      .title-panel {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(290px, 360px) minmax(0, 1fr);
+        gap: 34px;
+        align-items: center;
+        padding: 42px 42px 38px;
+        overflow: hidden;
+      }
+
+      .title-panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 18% 24%, rgba(255,255,255,0.52), transparent 22%),
+          radial-gradient(circle at 85% 18%, rgba(13, 89, 100, 0.08), transparent 24%);
+        pointer-events: none;
+      }
+
+      .title-emblem-wrap {
+        position: relative;
+        z-index: 1;
+        gap: 16px;
+      }
+
+      .title-emblem-ring {
+        width: min(330px, 68vw);
+        aspect-ratio: 1 / 1;
+        padding: 18px;
+        border-radius: 50%;
+        background:
+          conic-gradient(from 0deg, var(--brass-light), #845d25, var(--brass-light), #845d25, var(--brass-light));
+        box-shadow: 0 18px 34px rgba(0,0,0,0.2), inset 0 0 0 3px rgba(255,248,229,0.24);
+        position: relative;
+      }
+
+      .title-emblem-ring::before {
+        content: "☠";
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: rgba(255,244,221,0.55);
+        font-size: 3.2rem;
+      }
+
+      .title-hero-badge {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        border: 10px solid #0b8b63;
+        background: linear-gradient(160deg, #ffffff, #eef6f1);
+      }
+
+      .title-emblem-caption {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(8, 74, 88, 0.12);
+        border: 1px solid rgba(8, 74, 88, 0.18);
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .title-copy-block {
+        position: relative;
+        z-index: 1;
+      }
+
+      .title-copy-block h1 {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.9rem, 5vw, 4.8rem);
+        line-height: 0.96;
+        color: #142a42;
+        margin-bottom: 16px;
+      }
+
+      .title-copy-block p {
+        max-width: 720px;
+        font-size: 1.14rem;
+        line-height: 1.65;
+        color: var(--ink-soft);
+        margin-bottom: 20px;
+      }
+
+      .title-form-card {
+        margin: 0 0 22px;
+        padding: 20px 22px 18px;
+      }
+
+      .title-form-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .title-form-badge {
+        padding: 9px 14px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(13,89,98,0.14), rgba(13,89,98,0.08));
+        color: var(--teal-dark);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.82rem;
+      }
+
+      .title-identity-grid {
+        gap: 16px;
+      }
+
+      .title-button-row {
+        margin-bottom: 20px;
+      }
+
+      .title-support-grid {
+        margin-top: 0;
+        margin-bottom: 20px;
+      }
+
+      .title-legend-row {
+        justify-content: flex-start;
+      }
+
+      .title-ruler {
+        position: absolute;
+        left: 110px;
+        right: 110px;
+        bottom: 22px;
+        height: 56px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-evenly;
+        gap: 6px;
+        padding-bottom: 7px;
+        border: 2px solid rgba(103, 63, 15, 0.8);
+        border-radius: 6px;
+        background:
+          repeating-linear-gradient(90deg, transparent 0 44px, rgba(76, 46, 7, 0.26) 44px 46px),
+          linear-gradient(180deg, #c89542, #a26f23);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        color: #412400;
+      }
+
+      .title-prop-left,
+      .title-prop-right {
+        position: absolute;
+        top: 70px;
+        bottom: 86px;
+        width: 132px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .title-prop-left {
+        left: -8px;
+      }
+
+      .title-prop-right {
+        right: -4px;
+      }
+
+      .title-formula {
+        position: absolute;
+        left: 10px;
+        top: 40px;
+        color: rgba(242, 237, 214, 0.48);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 2.3rem;
+        transform: rotate(-9deg);
+      }
+
+      .title-glass-column,
+      .title-flask,
+      .title-compass-sketch,
+      .title-lantern,
+      .title-blueprint,
+      .title-telescope {
+        position: absolute;
+      }
+
+      .title-glass-column {
+        left: 18px;
+        top: 96px;
+        width: 62px;
+        height: 240px;
+        border-radius: 30px 30px 18px 18px;
+        border: 3px solid rgba(217, 190, 132, 0.58);
+        background:
+          linear-gradient(180deg, transparent 0 55%, rgba(43, 187, 196, 0.38) 55% 100%),
+          linear-gradient(90deg, rgba(255,255,255,0.18), transparent 32%);
+      }
+
+      .title-flask {
+        border: 3px solid rgba(217, 190, 132, 0.55);
+        background:
+          linear-gradient(180deg, transparent 0 50%, rgba(43, 187, 196, 0.48) 50% 100%),
+          linear-gradient(90deg, rgba(255,255,255,0.16), transparent 30%);
+      }
+
+      .title-flask-large {
+        left: 0;
+        bottom: 6px;
+        width: 78px;
+        height: 102px;
+        border-radius: 22px 22px 28px 28px;
+      }
+
+      .title-flask-small {
+        left: 62px;
+        bottom: 36px;
+        width: 46px;
+        height: 64px;
+        border-radius: 18px 18px 22px 22px;
+      }
+
+      .title-compass-sketch {
+        left: 24px;
+        top: 354px;
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        border: 2px solid rgba(233, 228, 205, 0.24);
+      }
+
+      .title-compass-sketch::before,
+      .title-compass-sketch::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        background: rgba(233, 228, 205, 0.24);
+        transform: translate(-50%, -50%);
+      }
+
+      .title-compass-sketch::before {
+        width: 2px;
+        height: 72%;
+      }
+
+      .title-compass-sketch::after {
+        width: 72%;
+        height: 2px;
+      }
+
+      .title-lantern {
+        right: 22px;
+        top: 78px;
+        width: 84px;
+        height: 166px;
+        border-radius: 20px;
+        border: 3px solid rgba(142, 102, 35, 0.8);
+        background:
+          radial-gradient(circle at center, rgba(255,220,144,0.9), rgba(255,176,64,0.38) 38%, transparent 68%),
+          linear-gradient(180deg, rgba(43,32,20,0.86), rgba(110,78,28,0.5), rgba(43,32,20,0.86));
+        box-shadow: 0 0 32px rgba(255, 190, 95, 0.3);
+      }
+
+      .title-blueprint {
+        right: 12px;
+        top: 278px;
+        width: 92px;
+        height: 120px;
+        border-radius: 8px;
+        border: 2px solid rgba(111, 78, 30, 0.56);
+        background:
+          linear-gradient(rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(87, 62, 30, 0.08) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(245, 230, 188, 0.95), rgba(225, 202, 152, 0.95));
+        background-size: 12px 12px, 12px 12px, auto;
+        transform: rotate(5deg);
+      }
+
+      .title-telescope {
+        right: 0;
+        bottom: 24px;
+        width: 124px;
+        height: 30px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #75521d, #c39547, #7a5722);
+        transform: rotate(-31deg);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+      }
+
+      .mission-card {
+        padding: 32px 34px;
+        min-height: 176px;
+      }
+
+      .mission-card .panel-title {
+        margin: 0 0 10px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2.1rem, 3vw, 3.2rem);
+        color: #152842;
+      }
+
+      .mission-card .subtle {
+        font-size: 1.15rem;
+        color: #3e4f5b;
+      }
+
+      .mission-watermark {
+        right: 126px;
+        width: 200px;
+        height: 200px;
+        opacity: 0.26;
+      }
+
+      .activity-panel {
+        padding: 28px 24px 24px;
+        gap: 22px;
+      }
+
+      .route-side {
+        position: relative;
+      }
+
+      .map-frame {
+        position: relative;
+        padding: 16px;
+        border-radius: 16px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.08)),
+          linear-gradient(180deg, #f7ecd4, #edd8b2);
+        border: 2px solid rgba(73, 48, 19, 0.28);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.45);
+      }
+
+      .map-frame-inner {
+        position: relative;
+        padding: 18px 20px 12px;
+        border-radius: 10px;
+        background:
+          linear-gradient(rgba(20, 49, 65, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(20, 49, 65, 0.05) 1px, transparent 1px),
+          #f6ead2;
+        background-size: 28px 28px, 28px 28px, auto;
+        border: 2px solid rgba(31, 74, 86, 0.18);
+        overflow: hidden;
+      }
+
+      .map-rose {
+        position: absolute;
+        right: 18px;
+        top: 12px;
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        opacity: 0.18;
+        border: 2px solid rgba(114, 88, 42, 0.4);
+      }
+
+      .map-rose::before,
+      .map-rose::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        background: rgba(114, 88, 42, 0.4);
+        transform: translate(-50%, -50%);
+      }
+
+      .map-rose::before {
+        width: 2px;
+        height: 80%;
+      }
+
+      .map-rose::after {
+        width: 80%;
+        height: 2px;
+      }
+
+      .route-side .map-host {
+        position: relative;
+        z-index: 1;
+      }
+
+      .route-side .map-shell {
+        min-height: 292px;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .map-meter-label {
+        margin-top: 10px;
+        text-align: center;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 1rem;
+        color: #4a3314;
+      }
+
+      .measurement-panel {
+        position: relative;
+      }
+
+      .measurement-panel::after {
+        content: "";
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        width: 96px;
+        height: 96px;
+        opacity: 0.1;
+        border-radius: 12px;
+        background:
+          linear-gradient(135deg, transparent 42%, rgba(89,62,31,0.5) 42% 46%, transparent 46%),
+          linear-gradient(180deg, rgba(89,62,31,0.16), transparent);
+      }
+
+      .measurement-header {
+        font-size: 1.55rem;
+        color: #182d46;
+      }
+
+      .answer-row + .answer-row {
+        margin-top: 18px;
+      }
+
+      .measurement-label-row {
+        margin-bottom: 9px;
+      }
+
+      .measurement-label-row label {
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: #1a2d45;
+      }
+
+      .measurement-input-wrap {
+        background: rgba(255,255,255,0.76);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+      }
+
+      .measurement-input-wrap input {
+        min-height: 56px;
+      }
+
+      .helper-note {
+        margin-top: 10px;
+      }
+
+      .lab-action-row {
+        margin-top: 20px;
+      }
+
+      .support-card {
+        min-height: 194px;
+        padding: 20px 18px 18px;
+      }
+
+      .support-card::after {
+        opacity: 0.16;
+        font-size: 4rem;
+      }
+
+      .support-card-title {
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: #1b2e44;
+      }
+
       .hint-banner {
         background: linear-gradient(180deg, #fff6d8, #f2dd9a);
         border-color: rgba(184, 137, 53, 0.86);
@@ -1740,9 +2216,12 @@
       }
 
       @media (max-width: 1100px) {
+        .title-prop-left,
+        .title-prop-right,
         .lab-prop-left,
         .lab-prop-right,
-        .lab-ruler-footer {
+        .lab-ruler-footer,
+        .title-ruler {
           opacity: 0.25;
         }
 
@@ -1751,6 +2230,16 @@
         .activity-panel,
         .compare-activity-panel {
           grid-template-columns: 1fr;
+        }
+
+        .title-panel {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .title-button-row,
+        .title-legend-row {
+          justify-content: center;
         }
       }
 
@@ -1767,10 +2256,22 @@
           grid-template-columns: 1fr;
         }
 
+        .title-prop-left,
+        .title-prop-right,
         .mission-watermark,
         .lab-prop-left,
         .lab-prop-right {
           display: none;
+        }
+
+        .title-stage {
+          padding-inline: 16px;
+          padding-bottom: 82px;
+        }
+
+        .title-ruler {
+          left: 24px;
+          right: 24px;
         }
       }
 
@@ -1791,6 +2292,21 @@
 
         .mission-mascot {
           display: none;
+        }
+
+        .title-panel {
+          padding: 24px 20px 26px;
+        }
+
+        .title-copy-block h1 {
+          font-size: clamp(2.2rem, 10vw, 3rem);
+        }
+
+        .title-ruler {
+          height: 48px;
+          font-size: 0.82rem;
+          left: 14px;
+          right: 14px;
         }
 
         .lab-action-row,
@@ -2331,53 +2847,95 @@
 
       function renderTitleScreen() {
         return `
-          <div class="screen splash">
-            <div class="card splash-panel">
-              <div class="hero-badge-wrap">
-                <div class="hero-badge">
-                  <img src="${MASCOT_DATA_URI}" alt="Pirate mascot">
-                </div>
+          <div class="screen splash lab-screen">
+            <div class="title-stage">
+              <div class="title-prop-left" aria-hidden="true">
+                <div class="title-formula">d = vt</div>
+                <div class="title-glass-column"></div>
+                <div class="title-flask title-flask-large"></div>
+                <div class="title-flask title-flask-small"></div>
+                <div class="title-compass-sketch"></div>
               </div>
-              <div class="title-block">
-                <span class="pill">School Map Game</span>
-                <h1>Pirate Path:<br>Distance vs Displacement</h1>
-                <p>
-                  Help the pirate mascot move through the school while students practice the difference
-                  between total path traveled and straight-line change from start to finish.
-                </p>
-
-                <div class="prompt-box" style="margin: 16px 0 18px;">
-                  <h3 style="margin-top:0;">Student information</h3>
-                  <div class="identity-grid">
-                    <div>
-                      <label for="firstNameInput"><strong>First name</strong></label>
-                      <input id="firstNameInput" type="text" value="${escapeHtml(state.student.firstName)}" placeholder="First name">
-                    </div>
-                    <div>
-                      <label for="lastNameInput"><strong>Last name</strong></label>
-                      <input id="lastNameInput" type="text" value="${escapeHtml(state.student.lastName)}" placeholder="Last name">
-                    </div>
-                    <div>
-                      <label for="classPeriodInput"><strong>Class period</strong></label>
-                      <select id="classPeriodInput">
-                        <option value="">Choose class period</option>
-                        ${CLASS_PERIOD_OPTIONS.map(option => `<option value="${option}" ${state.student.classPeriod === option ? "selected" : ""}>${option}</option>`).join("")}
-                      </select>
+              <div class="title-prop-right" aria-hidden="true">
+                <div class="title-lantern"></div>
+                <div class="title-blueprint"></div>
+                <div class="title-telescope"></div>
+              </div>
+              <div class="card splash-panel title-panel parchment-card">
+                <div class="hero-badge-wrap title-emblem-wrap">
+                  <div class="title-emblem-ring">
+                    <div class="hero-badge title-hero-badge">
+                      <img src="${MASCOT_DATA_URI}" alt="Pirate mascot">
                     </div>
                   </div>
-                  <div class="helper-note">Students should enter first name, last name, and class period before starting.</div>
-                  <div id="titleErrorHost"></div>
+                  <div class="title-emblem-caption">Pirate Lab Token</div>
                 </div>
+                <div class="title-block title-copy-block">
+                  <span class="mission-pill">Pirate Science Lab</span>
+                  <h1>Pirate Path:<br>Distance vs Displacement</h1>
+                  <p>
+                    Help the pirate mascot move through the school while students practice the difference
+                    between total path traveled and straight-line change from start to finish.
+                  </p>
 
-                <div class="button-row">
-                  <button class="btn-primary" onclick="beginGameFromTitle()">Start Game</button>
-                  <button class="btn-secondary" onclick="goToTutorial()">How to Play</button>
+                  <div class="prompt-box title-form-card parchment-card">
+                    <div class="title-form-header">
+                      <div>
+                        <h3 style="margin-top:0;">Student information</h3>
+                        <div class="subtle">Enter your name and class period before starting.</div>
+                      </div>
+                      <div class="title-form-badge">Ready to sail</div>
+                    </div>
+                    <div class="identity-grid title-identity-grid">
+                      <div>
+                        <label for="firstNameInput"><strong>First name</strong></label>
+                        <input id="firstNameInput" type="text" value="${escapeHtml(state.student.firstName)}" placeholder="First name">
+                      </div>
+                      <div>
+                        <label for="lastNameInput"><strong>Last name</strong></label>
+                        <input id="lastNameInput" type="text" value="${escapeHtml(state.student.lastName)}" placeholder="Last name">
+                      </div>
+                      <div>
+                        <label for="classPeriodInput"><strong>Class period</strong></label>
+                        <select id="classPeriodInput">
+                          <option value="">Choose class period</option>
+                          ${CLASS_PERIOD_OPTIONS.map(option => `<option value="${option}" ${state.student.classPeriod === option ? "selected" : ""}>${option}</option>`).join("")}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="helper-note">Students should enter first name, last name, and class period before starting.</div>
+                    <div id="titleErrorHost"></div>
+                  </div>
+
+                  <div class="button-row title-button-row">
+                    <button class="btn-primary" onclick="beginGameFromTitle()">Start Game</button>
+                    <button class="btn-secondary" onclick="goToTutorial()">How to Play</button>
+                  </div>
+
+                  <div class="support-grid title-support-grid">
+                    <div class="support-card legend-card parchment-card">
+                      <div class="support-card-title">Game Goal</div>
+                      <div class="support-copy">Watch the pirate move, then decide the <strong class="distance-text">distance</strong> and <strong class="displacement-text">displacement</strong>.</div>
+                    </div>
+                    <div class="support-card concept-card parchment-card">
+                      <div class="support-card-title">What Students Practice</div>
+                      <div class="support-copy">Distance counts the full route. Displacement compares the starting point to the final point.</div>
+                    </div>
+                    <div class="support-card units-card parchment-card">
+                      <div class="support-card-title">Classroom Fit</div>
+                      <div class="support-copy">Built for simple, readable iPad use with replayable movement and clear answer boxes.</div>
+                    </div>
+                  </div>
+
+                  <div class="legend-row title-legend-row">
+                    <span class="legend-chip"><span class="legend-dot" style="background: var(--red-path);"></span>Distance Path</span>
+                    <span class="legend-chip"><span class="legend-dot" style="background: var(--blue-displacement);"></span>Displacement</span>
+                    <span class="legend-chip"><span class="legend-dot" style="background: var(--green);"></span>Pirate Token</span>
+                  </div>
                 </div>
-                <div class="legend-row">
-                  <span class="legend-chip"><span class="legend-dot" style="background: var(--path);"></span>Distance Path</span>
-                  <span class="legend-chip"><span class="legend-dot" style="background: var(--arrow);"></span>Displacement</span>
-                  <span class="legend-chip"><span class="legend-dot" style="background: var(--green);"></span>Pirate Token</span>
-                </div>
+              </div>
+              <div class="title-ruler" aria-hidden="true">
+                <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>meters</span>
               </div>
             </div>
           </div>
@@ -2518,6 +3076,7 @@
                 <p class="subtle">${round.prompt}</p>
                 ${round.hintText ? `<div class="hint-banner">${round.hintText}</div>` : ""}
               </div>
+              <div class="mission-watermark" aria-hidden="true"></div>
               <div class="mission-mascot">
                 <div class="mission-compass" aria-hidden="true"></div>
                 <div class="small-mascot"><img src="${MASCOT_DATA_URI}" alt="Pirate mascot"></div>
@@ -2563,25 +3122,37 @@
         const saved = getAnswersForRound();
         return `
           <div class="activity-panel parchment-card">
-            <div>
-              <div class="lab-section-plaque">Main Hallway (Route Map)</div>
-              <div id="mainMap" class="map-host"></div>
+            <div class="route-side">
+              <div class="lab-section-plaque">⚓ Main Hallway (Route Map)</div>
+              <div class="map-frame">
+                <div class="map-frame-inner">
+                  <div class="map-rose" aria-hidden="true"></div>
+                  <div id="mainMap" class="map-host"></div>
+                </div>
+              </div>
+              <div class="map-meter-label">meters</div>
               <p class="map-caption">Watch the pirate move. Then enter the distance and displacement.</p>
             </div>
             <div class="measurement-panel parchment-card">
-              <div class="lab-section-plaque">Measurements</div>
+              <div class="lab-section-plaque">⚗ Measurements</div>
               <div class="prompt-box measurement-box">
                 <div class="measurement-header">Type your answers</div>
                 <div class="answer-stack">
                   <div class="answer-row">
-                    <label for="distanceInput">Distance <span class="measurement-note">(total path taken)</span></label>
+                    <div class="measurement-label-row">
+                      <label for="distanceInput">Distance <span class="measurement-note">(total path taken)</span></label>
+                      <span class="swatch-line distance"></span>
+                    </div>
                     <div class="measurement-input-wrap">
                       <input id="distanceInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.distance || "")}" oninput="storeRoundNumericAnswer('distance', this.value)" disabled placeholder="Enter meters">
                       <span class="measurement-unit">m</span>
                     </div>
                   </div>
                   <div class="answer-row">
-                    <label for="displacementInput">Displacement <span class="measurement-note">(straight-line change)</span></label>
+                    <div class="measurement-label-row">
+                      <label for="displacementInput">Displacement <span class="measurement-note">(straight-line change)</span></label>
+                      <span class="swatch-line displacement"></span>
+                    </div>
                     <div class="measurement-input-wrap">
                       <input id="displacementInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.displacement || "")}" oninput="storeRoundNumericAnswer('displacement', this.value)" disabled placeholder="Enter meters">
                       <span class="measurement-unit">m</span>
@@ -2589,9 +3160,9 @@
                   </div>
                 </div>
                 <div class="helper-note">Inputs unlock after the animation finishes.</div>
-                <div class="controls">
-                  <button id="replayBtn" class="btn-secondary" onclick="replayCurrentRound()">Replay Movement</button>
-                  <button id="checkBtn" class="btn-primary" onclick="checkCurrentRound()" disabled>Check Answer</button>
+                <div class="controls lab-action-row">
+                  <button id="replayBtn" class="btn-secondary" onclick="replayCurrentRound()">↻ Replay Movement</button>
+                  <button id="checkBtn" class="btn-primary" onclick="checkCurrentRound()" disabled>✓ Check Answer</button>
                 </div>
               </div>
             </div>
@@ -2652,7 +3223,7 @@
         return `
           <div class="activity-panel parchment-card compare-activity-panel">
             <div>
-              <div class="lab-section-plaque">Route Maps</div>
+              <div class="lab-section-plaque">⚓ Route Maps</div>
               <div class="compare-focus-row">
                 <button class="${focusMode === "both" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('both')">Show Both Routes</button>
                 <button class="${focusMode === "A" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('A')">Focus Route 1</button>
@@ -2672,7 +3243,7 @@
               </div>
             </div>
             <div class="measurement-panel parchment-card">
-              <div class="lab-section-plaque">Compare the Routes</div>
+              <div class="lab-section-plaque">⚗ Compare the Routes</div>
               <div class="prompt-box measurement-box">
                 <fieldset id="compareFieldset" disabled>
                   <legend>Compare the routes</legend>
@@ -2712,9 +3283,9 @@
                   </div>
                 </fieldset>
 
-                <div class="controls">
-                  <button id="replayBtn" class="btn-secondary" onclick="replayCurrentRound()">Replay Routes</button>
-                  <button id="checkBtn" class="btn-primary" onclick="checkCurrentRound()" disabled>Check Answer</button>
+                <div class="controls lab-action-row">
+                  <button id="replayBtn" class="btn-secondary" onclick="replayCurrentRound()">↻ Replay Routes</button>
+                  <button id="checkBtn" class="btn-primary" onclick="checkCurrentRound()" disabled>✓ Check Answer</button>
                 </div>
               </div>
             </div>
@@ -2735,18 +3306,18 @@
 
         return `
           <div class="support-grid">
-            <div class="support-card parchment-card">
+            <div class="support-card legend-card parchment-card">
               <div class="support-card-title">Legend</div>
               <div class="legend-line-item"><span class="legend-line distance-line"></span>Distance (Total Path)</div>
               <div class="support-copy">Actual path the pirate travels</div>
               <div class="legend-line-item"><span class="legend-line displacement-line"></span>Displacement (Straight-Line)</div>
               <div class="support-copy">Shortest straight-line from start to finish</div>
             </div>
-            <div class="support-card parchment-card">
+            <div class="support-card concept-card parchment-card">
               <div class="support-card-title">Concept Check</div>
               <div class="support-copy">${conceptText}</div>
             </div>
-            <div class="support-card parchment-card">
+            <div class="support-card units-card parchment-card">
               <div class="support-card-title">Units</div>
               <div class="support-copy">All measurements are in meters (m).</div>
               <div class="support-copy">Use whole numbers or decimals.</div>
