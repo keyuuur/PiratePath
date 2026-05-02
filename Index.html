@@ -2419,7 +2419,15 @@
         const route1Distance = totalDistanceForMoves(config.routes.A.moves);
         const route2Distance = totalDistanceForMoves(config.routes.B.moves);
         const sharedDisplacement = getOrthogonalDisplacement(config.routes.A.start, config.routes.A.moves);
+        const route2Displacement = getOrthogonalDisplacement(config.routes.B.start, config.routes.B.moves);
         const longerRoute = route1Distance === route2Distance ? "same" : (route1Distance > route2Distance ? "1" : "2");
+        if (route2Displacement !== sharedDisplacement) {
+          console.warn("Compare round displacement mismatch", {
+            prompt: config.prompt,
+            route1Displacement: sharedDisplacement,
+            route2Displacement
+          });
+        }
         return {
           sourceId: config.sourceId || "",
           prompt: config.prompt,
@@ -2645,7 +2653,7 @@
         "7th hour"
       ];
 
-      const GAME_VERSION = "v9-refactor";
+      const GAME_VERSION = "v10-ui-safety-2026-05-02";
 
       const state = {
         mode: "title",
@@ -2711,7 +2719,8 @@
           status: "idle",
           message: "",
           submitted: false,
-          response: null
+          response: null,
+          lastSubmissionType: ""
         };
         state.sessionId = generateSessionId();
         state.startedAt = new Date().toISOString();
@@ -3144,7 +3153,7 @@
                       <span class="swatch-line distance"></span>
                     </div>
                     <div class="measurement-input-wrap">
-                      <input id="distanceInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.distance || "")}" oninput="storeRoundNumericAnswer('distance', this.value)" disabled placeholder="Enter meters">
+                      <input id="distanceInput" type="number" inputmode="decimal" min="0" value="${escapeHtml(saved.distance || "")}" oninput="storeRoundNumericAnswer('distance', this.value)" disabled placeholder="Enter meters">
                       <span class="measurement-unit">m</span>
                     </div>
                   </div>
@@ -3154,7 +3163,7 @@
                       <span class="swatch-line displacement"></span>
                     </div>
                     <div class="measurement-input-wrap">
-                      <input id="displacementInput" type="number" inputmode="numeric" min="0" value="${escapeHtml(saved.displacement || "")}" oninput="storeRoundNumericAnswer('displacement', this.value)" disabled placeholder="Enter meters">
+                      <input id="displacementInput" type="number" inputmode="decimal" min="0" value="${escapeHtml(saved.displacement || "")}" oninput="storeRoundNumericAnswer('displacement', this.value)" disabled placeholder="Enter meters">
                       <span class="measurement-unit">m</span>
                     </div>
                   </div>
@@ -3171,6 +3180,8 @@
       }
 
       function renderLabelNumericRound(round) {
+        // Inactive mode retained for possible future marker-label rounds.
+        // Current GAME_DATA uses only numeric and compare levels.
         return `
           <div class="split">
             <div>
@@ -3197,11 +3208,11 @@
                 <div class="answer-stack">
                   <div class="answer-row">
                     <label for="distanceInput">Distance</label>
-                    <input id="distanceInput" type="number" inputmode="numeric" min="0" disabled>
+                    <input id="distanceInput" type="number" inputmode="decimal" min="0" disabled>
                   </div>
                   <div class="answer-row">
                     <label for="displacementInput">Displacement</label>
-                    <input id="displacementInput" type="number" inputmode="numeric" min="0" disabled>
+                    <input id="displacementInput" type="number" inputmode="decimal" min="0" disabled>
                   </div>
                 </div>
 
@@ -3219,15 +3230,16 @@
       function renderCompareRound(round) {
         const ui = getUiForRound();
         const focusMode = ui.focusedRoute || "both";
+        const focusDisabled = ui.comparisonAnimating || !ui.animationFinished;
         const saved = getAnswersForRound();
         return `
           <div class="activity-panel parchment-card compare-activity-panel">
             <div>
               <div class="lab-section-plaque">⚓ Route Maps</div>
               <div class="compare-focus-row">
-                <button class="${focusMode === "both" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('both')">Show Both Routes</button>
-                <button class="${focusMode === "A" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('A')">Focus Route 1</button>
-                <button class="${focusMode === "B" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('B')">Focus Route 2</button>
+                <button class="${focusMode === "both" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('both')" ${focusDisabled ? "disabled" : ""}>Show Both Routes</button>
+                <button class="${focusMode === "A" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('A')" ${focusDisabled ? "disabled" : ""}>Focus Route 1</button>
+                <button class="${focusMode === "B" ? "btn-primary" : "btn-secondary"}" onclick="setFocusedRoute('B')" ${focusDisabled ? "disabled" : ""}>Focus Route 2</button>
               </div>
               <div class="compare-grid ${focusMode === "A" ? "focus-a" : focusMode === "B" ? "focus-b" : ""}">
                 <div class="route-card route-a">
@@ -3260,7 +3272,7 @@
                     <div>
                       <strong>2. Distance for Route 1</strong>
                       <div class="measurement-input-wrap" style="margin-top:8px;">
-                        <input id="route1DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route1Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <input id="route1DistanceInput" type="number" inputmode="decimal" min="0" value="${saved.route1Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
                         <span class="measurement-unit">m</span>
                       </div>
                     </div>
@@ -3268,7 +3280,7 @@
                     <div>
                       <strong>3. Distance for Route 2</strong>
                       <div class="measurement-input-wrap" style="margin-top:8px;">
-                        <input id="route2DistanceInput" type="number" inputmode="numeric" min="0" value="${saved.route2Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <input id="route2DistanceInput" type="number" inputmode="decimal" min="0" value="${saved.route2Distance || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
                         <span class="measurement-unit">m</span>
                       </div>
                     </div>
@@ -3276,7 +3288,7 @@
                     <div>
                       <strong>4. What was the displacement for both routes?</strong>
                       <div class="measurement-input-wrap" style="margin-top:8px;">
-                        <input id="sharedDisplacementInput" type="number" inputmode="numeric" min="0" value="${saved.sharedDisplacement || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
+                        <input id="sharedDisplacementInput" type="number" inputmode="decimal" min="0" value="${saved.sharedDisplacement || ""}" oninput="storeCompareAnswers()" placeholder="Enter meters">
                         <span class="measurement-unit">m</span>
                       </div>
                     </div>
@@ -4036,7 +4048,8 @@
         };
         renderSingleMap("exampleMap", exampleRound, {
           interactiveTargets: false,
-          autoPlay: true
+          autoPlay: true,
+          trackRoundUi: false
         });
       }
 
@@ -4060,8 +4073,8 @@
             answers: round.routes.B.answers
           };
 
-          renderSingleMap("compareMapA", routeA, { autoPlay: false, showCompletedState: ui.animationFinished });
-          renderSingleMap("compareMapB", routeB, { autoPlay: false, showCompletedState: ui.animationFinished });
+          renderSingleMap("compareMapA", routeA, { autoPlay: false, showCompletedState: ui.animationFinished, trackRoundUi: false });
+          renderSingleMap("compareMapB", routeB, { autoPlay: false, showCompletedState: ui.animationFinished, trackRoundUi: false });
 
           if (ui.animationFinished) {
             document.getElementById("compareFieldset").disabled = false;
@@ -4072,13 +4085,20 @@
           return;
         }
 
-        renderSingleMap("mainMap", round, {
-          interactiveTargets: false,
-          autoPlay: true
-        });
-
-        if (ui.hasPlayed && ui.animationFinished) {
+        if (ui.animationFinished) {
+          renderSingleMap("mainMap", round, {
+            interactiveTargets: false,
+            showCompletedState: true,
+            trackRoundUi: false
+          });
           setRoundInputsEnabled(true);
+        } else {
+          setRoundInputsEnabled(false);
+          renderSingleMap("mainMap", round, {
+            interactiveTargets: false,
+            autoPlay: true,
+            trackRoundUi: true
+          });
         }
       }
 
@@ -4105,21 +4125,22 @@
             start: fb.round.routes.A.start,
             moves: fb.round.routes.A.moves,
             answers: fb.round.routes.A.answers
-          }, { showCompletedState: true, interactiveTargets: false });
+          }, { showCompletedState: true, interactiveTargets: false, trackRoundUi: false });
 
           renderSingleMap("feedbackCompareB", {
             mapType: "2d",
             start: fb.round.routes.B.start,
             moves: fb.round.routes.B.moves,
             answers: fb.round.routes.B.answers
-          }, { showCompletedState: true, interactiveTargets: false });
+          }, { showCompletedState: true, interactiveTargets: false, trackRoundUi: false });
           return;
         }
 
         renderSingleMap("feedbackMapHost", fb.round, {
           showCompletedState: true,
           interactiveTargets: false,
-          feedbackAssignments: fb.correctAssignments || null
+          feedbackAssignments: fb.correctAssignments || null,
+          trackRoundUi: false
         });
       }
 
@@ -4131,11 +4152,16 @@
           return;
         }
 
+        const key = getRoundKey();
+        const ui = getUiForRound(key);
+        ui.animationFinished = false;
+
         setRoundInputsEnabled(false);
         renderSingleMap("mainMap", getCurrentRound(), {
           interactiveTargets: false,
           autoPlay: true,
-          forceReplay: true
+          forceReplay: true,
+          trackRoundUi: true
         });
       }
 
@@ -4163,6 +4189,7 @@
 
         ui.comparisonAnimating = true;
         ui.hasPlayed = true;
+        ui.animationFinished = false;
         document.getElementById("compareFieldset").disabled = true;
         document.getElementById("checkBtn").disabled = true;
 
@@ -4195,8 +4222,10 @@
       }
 
       function setFocusedRoute(mode) {
-        storeCompareAnswers();
         const ui = getUiForRound();
+        if (ui.comparisonAnimating || !ui.animationFinished) return;
+
+        storeCompareAnswers();
         ui.focusedRoute = mode;
         renderApp();
       }
@@ -4217,10 +4246,14 @@
         if (!level || level.type !== "compare") return;
 
         const answers = getAnswersForRound();
+        const route1Input = document.getElementById("route1DistanceInput");
+        const route2Input = document.getElementById("route2DistanceInput");
+        const sharedInput = document.getElementById("sharedDisplacementInput");
+
         answers.longerRoute = getCheckedValue("longerRoute") || "";
-        answers.route1Distance = document.getElementById("route1DistanceInput")?.value || "";
-        answers.route2Distance = document.getElementById("route2DistanceInput")?.value || "";
-        answers.sharedDisplacement = document.getElementById("sharedDisplacementInput")?.value || "";
+        answers.route1Distance = route1Input ? route1Input.value : "";
+        answers.route2Distance = route2Input ? route2Input.value : "";
+        answers.sharedDisplacement = sharedInput ? sharedInput.value : "";
       }
 
       function captureCurrentRoundDraft() {
@@ -4358,7 +4391,7 @@
           const items = [
             {
               label: "Route with more distance",
-              student: longerRoute ? `Route ${longerRoute}` : "—",
+              student: formatRouteChoiceLabel(longerRoute) || "—",
               correctAnswer: formatRouteChoiceLabel(round.answers.longerRoute),
               correct: longerRoute === round.answers.longerRoute
             },
@@ -4519,12 +4552,23 @@
         }
 
         if (options.autoPlay) {
-          const key = getRoundKey();
-          const ui = getUiForRound(key);
-          ui.hasPlayed = true;
-          animateRoute(containerId, round, ++state.animationRunId, options.interactiveTargets).then(() => {
-            ui.animationFinished = true;
-            setRoundInputsEnabled(true);
+          const shouldTrackRoundUi = options.trackRoundUi === true;
+          const runId = ++state.animationRunId;
+          let ui = null;
+
+          if (shouldTrackRoundUi) {
+            const key = getRoundKey();
+            ui = getUiForRound(key);
+            ui.hasPlayed = true;
+            ui.animationFinished = false;
+          }
+
+          animateRoute(containerId, round, runId, options.interactiveTargets).then(() => {
+            if (runId !== state.animationRunId) return;
+            if (shouldTrackRoundUi && ui) {
+              ui.animationFinished = true;
+              setRoundInputsEnabled(true);
+            }
           });
         }
       }

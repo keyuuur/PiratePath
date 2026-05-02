@@ -110,60 +110,67 @@ function refreshPiratePathDashboard() {
 }
 
 function submitPiratePathSubmission(payload) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  setupPiratePathSheets_(ss);
+  const lock = LockService.getDocumentLock();
+  lock.waitLock(15000);
 
-  const normalizedPayload = normalizePayload_(payload);
-  const timestamp = new Date();
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    setupPiratePathSheets_(ss);
 
-  const resultsSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.results);
-  const roundSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.roundResponses);
-  const reflectionSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.reflections);
+    const normalizedPayload = normalizePayload_(payload);
+    const timestamp = new Date();
 
-  appendObjects_(resultsSheet, [
-    {
-      timestamp,
-      sessionId: normalizedPayload.sessionId,
-      studentKey: normalizedPayload.studentKey,
-      firstName: normalizedPayload.student.firstName,
-      lastName: normalizedPayload.student.lastName,
-      classPeriod: normalizedPayload.student.classPeriod,
-      completed: normalizedPayload.completed,
-      submissionType: normalizedPayload.submissionType,
-      progressStage: normalizedPayload.progressStage,
-      gameVersion: normalizedPayload.gameVersion,
-      score: normalizedPayload.summary.score,
-      scoreMax: normalizedPayload.summary.scoreMax,
-      percent: normalizedPayload.summary.percent,
-      canvasGrade: normalizedPayload.summary.canvasGrade,
-      level1Score: normalizedPayload.summary.level1Score,
-      level1Max: normalizedPayload.summary.level1Max,
-      level2Score: normalizedPayload.summary.level2Score,
-      level2Max: normalizedPayload.summary.level2Max,
-      level3Score: normalizedPayload.summary.level3Score,
-      level3Max: normalizedPayload.summary.level3Max,
-      reflectionScore: normalizedPayload.summary.reflectionScore,
-      reflectionMax: normalizedPayload.summary.reflectionMax,
-      questionSetSummary: normalizedPayload.summary.questionSetSummary,
-      startTime: normalizedPayload.startTime,
-      endTime: normalizedPayload.endTime,
-      durationSeconds: normalizedPayload.durationSeconds
-    }
-  ]);
+    const resultsSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.results);
+    const roundSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.roundResponses);
+    const reflectionSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.reflections);
 
-  appendObjects_(roundSheet, buildRoundResponseRows_(timestamp, normalizedPayload));
-  appendObjects_(reflectionSheet, buildReflectionRows_(timestamp, normalizedPayload));
+    appendObjects_(resultsSheet, [
+      {
+        timestamp,
+        sessionId: normalizedPayload.sessionId,
+        studentKey: normalizedPayload.studentKey,
+        firstName: normalizedPayload.student.firstName,
+        lastName: normalizedPayload.student.lastName,
+        classPeriod: normalizedPayload.student.classPeriod,
+        completed: normalizedPayload.completed,
+        submissionType: normalizedPayload.submissionType,
+        progressStage: normalizedPayload.progressStage,
+        gameVersion: normalizedPayload.gameVersion,
+        score: normalizedPayload.summary.score,
+        scoreMax: normalizedPayload.summary.scoreMax,
+        percent: normalizedPayload.summary.percent,
+        canvasGrade: normalizedPayload.summary.canvasGrade,
+        level1Score: normalizedPayload.summary.level1Score,
+        level1Max: normalizedPayload.summary.level1Max,
+        level2Score: normalizedPayload.summary.level2Score,
+        level2Max: normalizedPayload.summary.level2Max,
+        level3Score: normalizedPayload.summary.level3Score,
+        level3Max: normalizedPayload.summary.level3Max,
+        reflectionScore: normalizedPayload.summary.reflectionScore,
+        reflectionMax: normalizedPayload.summary.reflectionMax,
+        questionSetSummary: normalizedPayload.summary.questionSetSummary,
+        startTime: normalizedPayload.startTime,
+        endTime: normalizedPayload.endTime,
+        durationSeconds: normalizedPayload.durationSeconds
+      }
+    ]);
 
-  const dashboardInfo = refreshPiratePathDashboard_(ss);
-  const bestStudent = dashboardInfo.bestByStudent[normalizedPayload.studentKey] || null;
-  const isHighest = !!(bestStudent && bestStudent.sessionId === normalizedPayload.sessionId);
+    appendObjects_(roundSheet, buildRoundResponseRows_(timestamp, normalizedPayload));
+    appendObjects_(reflectionSheet, buildReflectionRows_(timestamp, normalizedPayload));
 
-  return {
-    ok: true,
-    isHighestAttempt: isHighest,
-    bestCanvasGrade: bestStudent ? bestStudent.canvasGrade : null,
-    message: buildSubmissionMessage_(normalizedPayload, isHighest, bestStudent)
-  };
+    const dashboardInfo = refreshPiratePathDashboard_(ss);
+    const bestStudent = dashboardInfo.bestByStudent[normalizedPayload.studentKey] || null;
+    const isHighest = !!(bestStudent && bestStudent.sessionId === normalizedPayload.sessionId);
+
+    return {
+      ok: true,
+      isHighestAttempt: isHighest,
+      bestCanvasGrade: bestStudent ? bestStudent.canvasGrade : null,
+      message: buildSubmissionMessage_(normalizedPayload, isHighest, bestStudent)
+    };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function setupPiratePathSheets_(ss) {
@@ -191,6 +198,9 @@ function ensureSheetHeaders_(ss, name, requiredHeaders) {
   }
 
   const existingHeaderSet = {};
+  const usedHeaderWidth = currentHeaders.reduce((lastColumn, header, idx) => {
+    return header === '' ? lastColumn : idx + 1;
+  }, 0);
   currentHeaders.forEach(header => {
     if (header) {
       existingHeaderSet[String(header).trim()] = true;
@@ -199,7 +209,7 @@ function ensureSheetHeaders_(ss, name, requiredHeaders) {
 
   const missingHeaders = requiredHeaders.filter(header => !existingHeaderSet[header]);
   if (missingHeaders.length) {
-    sheet.getRange(1, currentHeaders.length + 1, 1, missingHeaders.length).setValues([missingHeaders]);
+    sheet.getRange(1, usedHeaderWidth + 1, 1, missingHeaders.length).setValues([missingHeaders]);
   }
 
   styleHeaderRow_(sheet, Math.max(sheet.getLastColumn(), requiredHeaders.length));
