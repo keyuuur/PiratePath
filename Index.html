@@ -4182,6 +4182,12 @@
         });
       }
 
+      function setCompareFocusControlsEnabled(enabled) {
+        document.querySelectorAll(".compare-focus-row button").forEach(button => {
+          button.disabled = !enabled;
+        });
+      }
+
       function playComparisonRound(forceReplay = false) {
         const key = getRoundKey();
         const ui = getUiForRound(key);
@@ -4192,6 +4198,7 @@
         ui.animationFinished = false;
         document.getElementById("compareFieldset").disabled = true;
         document.getElementById("checkBtn").disabled = true;
+        setCompareFocusControlsEnabled(false);
 
         const runId = ++state.animationRunId;
         const round = getCurrentRound();
@@ -4218,6 +4225,7 @@
           ui.animationFinished = true;
           document.getElementById("compareFieldset").disabled = false;
           document.getElementById("checkBtn").disabled = false;
+          setCompareFocusControlsEnabled(true);
         });
       }
 
