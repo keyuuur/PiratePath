@@ -115,69 +115,27 @@ function submitPiratePathSubmission(payload) {
 
   try {
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    setupPiratePathSheets_(ss);
+    const sheets = setupPiratePathSheets_(ss);
 
     const normalizedPayload = normalizePayload_(payload);
     const timestamp = new Date();
 
-    const resultsSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.results);
-    const roundSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.roundResponses);
-    const reflectionSheet = ss.getSheetByName(PIRATE_PATH_SHEETS.reflections);
-
-    appendObjects_(resultsSheet, [
-      {
-        timestamp,
-        sessionId: normalizedPayload.sessionId,
-        studentKey: normalizedPayload.studentKey,
-        firstName: normalizedPayload.student.firstName,
-        lastName: normalizedPayload.student.lastName,
-        classPeriod: normalizedPayload.student.classPeriod,
-        completed: normalizedPayload.completed,
-        submissionType: normalizedPayload.submissionType,
-        progressStage: normalizedPayload.progressStage,
-        gameVersion: normalizedPayload.gameVersion,
-        score: normalizedPayload.summary.score,
-        scoreMax: normalizedPayload.summary.scoreMax,
-        percent: normalizedPayload.summary.percent,
-        canvasGrade: normalizedPayload.summary.canvasGrade,
-        level1Score: normalizedPayload.summary.level1Score,
-        level1Max: normalizedPayload.summary.level1Max,
-        level2Score: normalizedPayload.summary.level2Score,
-        level2Max: normalizedPayload.summary.level2Max,
-        level3Score: normalizedPayload.summary.level3Score,
-        level3Max: normalizedPayload.summary.level3Max,
-        reflectionScore: normalizedPayload.summary.reflectionScore,
-        reflectionMax: normalizedPayload.summary.reflectionMax,
-        questionSetSummary: normalizedPayload.summary.questionSetSummary,
-        startTime: normalizedPayload.startTime,
-        endTime: normalizedPayload.endTime,
-        durationSeconds: normalizedPayload.durationSeconds
-      }
-    ]);
-
-    appendObjects_(roundSheet, buildRoundResponseRows_(timestamp, normalizedPayload));
-    appendObjects_(reflectionSheet, buildReflectionRows_(timestamp, normalizedPayload));
+    appendSubmissionRows_(sheets, timestamp, normalizedPayload);
 
     const dashboardInfo = refreshPiratePathDashboard_(ss);
-    const bestStudent = dashboardInfo.bestByStudent[normalizedPayload.studentKey] || null;
-    const isHighest = !!(bestStudent && bestStudent.sessionId === normalizedPayload.sessionId);
-
-    return {
-      ok: true,
-      isHighestAttempt: isHighest,
-      bestCanvasGrade: bestStudent ? bestStudent.canvasGrade : null,
-      message: buildSubmissionMessage_(normalizedPayload, isHighest, bestStudent)
-    };
+    return buildSubmissionResponse_(normalizedPayload, dashboardInfo);
   } finally {
     lock.releaseLock();
   }
 }
 
 function setupPiratePathSheets_(ss) {
-  ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.results, PIRATE_PATH_HEADERS.GameResults);
-  ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.roundResponses, PIRATE_PATH_HEADERS.RoundResponses);
-  ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.reflections, PIRATE_PATH_HEADERS.Reflections);
-  ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.dashboard, PIRATE_PATH_HEADERS.Dashboard);
+  return {
+    results: ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.results, PIRATE_PATH_HEADERS.GameResults),
+    roundResponses: ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.roundResponses, PIRATE_PATH_HEADERS.RoundResponses),
+    reflections: ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.reflections, PIRATE_PATH_HEADERS.Reflections),
+    dashboard: ensureSheetHeaders_(ss, PIRATE_PATH_SHEETS.dashboard, PIRATE_PATH_HEADERS.Dashboard)
+  };
 }
 
 function ensureSheetHeaders_(ss, name, requiredHeaders) {
@@ -197,15 +155,8 @@ function ensureSheetHeaders_(ss, name, requiredHeaders) {
     return sheet;
   }
 
-  const existingHeaderSet = {};
-  const usedHeaderWidth = currentHeaders.reduce((lastColumn, header, idx) => {
-    return header === '' ? lastColumn : idx + 1;
-  }, 0);
-  currentHeaders.forEach(header => {
-    if (header) {
-      existingHeaderSet[String(header).trim()] = true;
-    }
-  });
+  const existingHeaderSet = buildHeaderSet_(currentHeaders);
+  const usedHeaderWidth = getLastUsedHeaderColumn_(currentHeaders);
 
   const missingHeaders = requiredHeaders.filter(header => !existingHeaderSet[header]);
   if (missingHeaders.length) {
@@ -223,6 +174,71 @@ function styleHeaderRow_(sheet, width) {
     .setWrap(true);
   sheet.setFrozenRows(1);
   sheet.autoResizeColumns(1, width);
+}
+
+function buildHeaderSet_(headers) {
+  const headerSet = {};
+  headers.forEach(header => {
+    if (header) {
+      headerSet[String(header).trim()] = true;
+    }
+  });
+  return headerSet;
+}
+
+function getLastUsedHeaderColumn_(headers) {
+  return headers.reduce((lastColumn, header, idx) => {
+    return header === '' ? lastColumn : idx + 1;
+  }, 0);
+}
+
+function appendSubmissionRows_(sheets, timestamp, payload) {
+  appendObjects_(sheets.results, [buildResultRow_(timestamp, payload)]);
+  appendObjects_(sheets.roundResponses, buildRoundResponseRows_(timestamp, payload));
+  appendObjects_(sheets.reflections, buildReflectionRows_(timestamp, payload));
+}
+
+function buildResultRow_(timestamp, payload) {
+  return {
+    timestamp,
+    sessionId: payload.sessionId,
+    studentKey: payload.studentKey,
+    firstName: payload.student.firstName,
+    lastName: payload.student.lastName,
+    classPeriod: payload.student.classPeriod,
+    completed: payload.completed,
+    submissionType: payload.submissionType,
+    progressStage: payload.progressStage,
+    gameVersion: payload.gameVersion,
+    score: payload.summary.score,
+    scoreMax: payload.summary.scoreMax,
+    percent: payload.summary.percent,
+    canvasGrade: payload.summary.canvasGrade,
+    level1Score: payload.summary.level1Score,
+    level1Max: payload.summary.level1Max,
+    level2Score: payload.summary.level2Score,
+    level2Max: payload.summary.level2Max,
+    level3Score: payload.summary.level3Score,
+    level3Max: payload.summary.level3Max,
+    reflectionScore: payload.summary.reflectionScore,
+    reflectionMax: payload.summary.reflectionMax,
+    questionSetSummary: payload.summary.questionSetSummary,
+    startTime: payload.startTime,
+    endTime: payload.endTime,
+    durationSeconds: payload.durationSeconds
+  };
+}
+
+function buildSubmissionResponse_(payload, dashboardInfo) {
+  const bestStudent = dashboardInfo.bestByStudent[payload.studentKey] || null;
+  const isHighest = !!(bestStudent && bestStudent.sessionId === payload.sessionId);
+
+  return {
+    ok: true,
+    isHighestAttempt: isHighest,
+    bestCanvasGrade: bestStudent ? bestStudent.canvasGrade : null,
+    message: buildSubmissionMessage_(payload, isHighest, bestStudent)
+  };
 }
 
 function appendObjects_(sheet, rows) {
@@ -288,7 +304,31 @@ function refreshPiratePathDashboard_(ss) {
   const results = getSheetObjects_(resultsSheet).map(normalizeResultRow_).filter(Boolean);
   const roundItems = getSheetObjects_(roundSheet);
   const reflectionItems = getSheetObjects_(reflectionSheet);
+  const bestByStudent = getBestAttemptsByStudent_(results);
+  const bestRows = sortDashboardAttemptRows_(Object.values(bestByStudent));
+  const missSummary = computeMissSummary_(roundItems, reflectionItems);
 
+  dashboardSheet.clearContents();
+  dashboardSheet.clearFormats();
+
+  const summaryRows = buildDashboardSummaryRows_(results, bestRows, missSummary);
+  dashboardSheet.getRange(1, 1, summaryRows.length, 2).setValues(summaryRows);
+  dashboardSheet.getRange(1, 1, 1, 2).setFontWeight('bold').setBackground('#d9ead3');
+
+  const attemptsStartRow = summaryRows.length + 3;
+  const attemptsWidth = writeDashboardAttempts_(dashboardSheet, attemptsStartRow, bestRows);
+
+  const missesStartRow = attemptsStartRow + Math.max(bestRows.length, 1) + 3;
+  const missesWidth = writeDashboardMissSummary_(dashboardSheet, missesStartRow, missSummary);
+
+  const finalWidth = Math.max(attemptsWidth, missesWidth, 2);
+  dashboardSheet.setFrozenRows(1);
+  dashboardSheet.autoResizeColumns(1, finalWidth);
+
+  return { bestByStudent };
+}
+
+function getBestAttemptsByStudent_(results) {
   const bestCompleteByStudent = {};
   const bestOverallByStudent = {};
 
@@ -310,23 +350,24 @@ function refreshPiratePathDashboard_(ss) {
   Object.keys(bestOverallByStudent).forEach(studentKey => {
     bestByStudent[studentKey] = bestCompleteByStudent[studentKey] || bestOverallByStudent[studentKey];
   });
+  return bestByStudent;
+}
 
-  const bestRows = Object.values(bestByStudent).sort((a, b) => {
+function sortDashboardAttemptRows_(rows) {
+  return rows.sort((a, b) => {
     if (a.classPeriod !== b.classPeriod) return String(a.classPeriod).localeCompare(String(b.classPeriod));
     if (a.lastName !== b.lastName) return String(a.lastName).localeCompare(String(b.lastName));
     return String(a.firstName).localeCompare(String(b.firstName));
   });
+}
 
+function buildDashboardSummaryRows_(results, bestRows, missSummary) {
   const completedCount = results.filter(row => row.completed).length;
   const avgCanvas = average_(bestRows.map(row => row.canvasGrade));
   const avgPercent = average_(bestRows.map(row => row.percent));
-  const missSummary = computeMissSummary_(roundItems, reflectionItems);
   const mostMissed = missSummary[0] || null;
 
-  dashboardSheet.clearContents();
-  dashboardSheet.clearFormats();
-
-  const summaryRows = [
+  return [
     ['Metric', 'Value'],
     ['Total submissions', results.length],
     ['Completed submissions', completedCount],
@@ -335,12 +376,10 @@ function refreshPiratePathDashboard_(ss) {
     ['Average Canvas grade (highest attempt)', roundNumber_(avgCanvas, 2)],
     ['Most commonly missed question', mostMissed ? mostMissed.displayLabel : 'None yet']
   ];
+}
 
-  dashboardSheet.getRange(1, 1, summaryRows.length, 2).setValues(summaryRows);
-  dashboardSheet.getRange(1, 1, 1, 2).setFontWeight('bold').setBackground('#d9ead3');
-
-  const attemptsStartRow = summaryRows.length + 3;
-  const attemptsHeader = [[
+function writeDashboardAttempts_(sheet, startRow, bestRows) {
+  const header = [
     'classPeriod',
     'lastName',
     'firstName',
@@ -356,15 +395,12 @@ function refreshPiratePathDashboard_(ss) {
     'reflectionScore',
     'questionSetSummary',
     'timestamp'
-  ]];
+  ];
 
-  dashboardSheet.getRange(attemptsStartRow, 1, 1, attemptsHeader[0].length).setValues(attemptsHeader);
-  dashboardSheet.getRange(attemptsStartRow, 1, 1, attemptsHeader[0].length)
-    .setFontWeight('bold')
-    .setBackground('#d9ead3');
+  writeDashboardHeader_(sheet, startRow, header);
 
   if (bestRows.length) {
-    const attemptValues = bestRows.map(row => ([
+    const values = bestRows.map(row => ([
       row.classPeriod,
       row.lastName,
       row.firstName,
@@ -382,19 +418,18 @@ function refreshPiratePathDashboard_(ss) {
       row.timestamp
     ]));
 
-    dashboardSheet.getRange(attemptsStartRow + 1, 1, attemptValues.length, attemptValues[0].length)
-      .setValues(attemptValues);
+    sheet.getRange(startRow + 1, 1, values.length, values[0].length).setValues(values);
   }
 
-  const missesStartRow = attemptsStartRow + Math.max(bestRows.length, 1) + 3;
-  const missesHeader = [['questionId', 'questionType', 'missCount', 'totalAttempts', 'missRate']];
-  dashboardSheet.getRange(missesStartRow, 1, 1, missesHeader[0].length).setValues(missesHeader);
-  dashboardSheet.getRange(missesStartRow, 1, 1, missesHeader[0].length)
-    .setFontWeight('bold')
-    .setBackground('#d9ead3');
+  return header.length;
+}
+
+function writeDashboardMissSummary_(sheet, startRow, missSummary) {
+  const header = ['questionId', 'questionType', 'missCount', 'totalAttempts', 'missRate'];
+  writeDashboardHeader_(sheet, startRow, header);
 
   if (missSummary.length) {
-    const missRows = missSummary.slice(0, 10).map(item => ([
+    const values = missSummary.slice(0, 10).map(item => ([
       item.questionId,
       item.questionType,
       item.missCount,
@@ -402,14 +437,17 @@ function refreshPiratePathDashboard_(ss) {
       formatPercent_(item.missRate)
     ]));
 
-    dashboardSheet.getRange(missesStartRow + 1, 1, missRows.length, missRows[0].length).setValues(missRows);
+    sheet.getRange(startRow + 1, 1, values.length, values[0].length).setValues(values);
   }
 
-  const finalWidth = Math.max(attemptsHeader[0].length, missesHeader[0].length, 2);
-  dashboardSheet.setFrozenRows(1);
-  dashboardSheet.autoResizeColumns(1, finalWidth);
+  return header.length;
+}
 
-  return { bestByStudent };
+function writeDashboardHeader_(sheet, row, header) {
+  sheet.getRange(row, 1, 1, header.length).setValues([header]);
+  sheet.getRange(row, 1, 1, header.length)
+    .setFontWeight('bold')
+    .setBackground('#d9ead3');
 }
 
 function computeMissSummary_(roundItems, reflectionItems) {
