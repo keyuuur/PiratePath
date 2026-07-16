@@ -6,6 +6,7 @@ Last verified: 2026-07-16
 
 - Branch: `overhaul/phaser-v2`
 - Base commit: `8981dc7`
+- Latest local implementation checkpoint: `13ef061`
 - Worktree: isolated sibling of the original legacy checkout
 - Local implementation: complete and verified for handoff
 - V2 deployment: not created
