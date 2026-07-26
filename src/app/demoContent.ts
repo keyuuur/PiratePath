@@ -1,0 +1,14 @@
+import type { PublicVariantManifest } from './types'
+
+export const DEMO_PUBLIC_MANIFEST: PublicVariantManifest = {
+  missions: [
+    { id: 'A1', variantId: 'DEMO-A1', kind: 'OBSERVE_ROUTE', title: 'Reversal Run', prompt: 'Watch the pirate reverse direction. Report distance and displacement with direction.', pointValue: 3, route: { start: { x: 1, y: 1 }, moves: [{ direction: 'EAST', units: 4 }, { direction: 'WEST', units: 1 }] } },
+    { id: 'A2', variantId: 'DEMO-A2', kind: 'OBSERVE_ROUTE', title: 'Back to the Dock', prompt: 'The pirate returns to the start. Report distance and displacement with direction.', pointValue: 3, route: { start: { x: 1, y: 2 }, moves: [{ direction: 'EAST', units: 4 }, { direction: 'WEST', units: 4 }] } },
+    { id: 'A3', variantId: 'DEMO-A3', kind: 'OBSERVE_ROUTE', title: 'School Detour', prompt: 'Follow the two-dimensional detour. Report distance and displacement with direction.', pointValue: 3, route: { start: { x: 1, y: 1 }, moves: [{ direction: 'NORTH', units: 2 }, { direction: 'EAST', units: 4 }, { direction: 'SOUTH', units: 2 }] } },
+    { id: 'A4', variantId: 'DEMO-A4', kind: 'PLAN_ROUTE', title: 'Checkpoint Plan', prompt: 'Plan a route through the checkpoint to the goal, then predict its measurements.', pointValue: 4, board: { width: 7, height: 5, start: { x: 0, y: 0 }, goal: { x: 5, y: 0 }, checkpoints: [{ x: 2, y: 2 }], obstacles: [], maxCommands: 4 } },
+    { id: 'A5', variantId: 'DEMO-A5', kind: 'PLAN_ROUTE', title: 'Obstacle Plan', prompt: 'Plan a route around the blocked hall to the goal, then predict its measurements.', pointValue: 4, board: { width: 7, height: 5, start: { x: 0, y: 2 }, goal: { x: 6, y: 2 }, checkpoints: [], obstacles: [{ x: 3, y: 1 }, { x: 3, y: 2 }, { x: 3, y: 3 }], maxCommands: 4 } },
+    { id: 'C1', variantId: 'DEMO-C1', kind: 'CONCEPT_PROBE', title: 'Distance Check', prompt: 'Which statement correctly describes distance?', pointValue: 1, options: [{ id: 'A', label: 'The straight line from start to finish' }, { id: 'B', label: 'The total length of every segment traveled' }, { id: 'C', label: 'The final coordinate' }] },
+    { id: 'C2', variantId: 'DEMO-C2', kind: 'CONCEPT_PROBE', title: 'Same Endpoints', prompt: 'Two routes have the same start and finish. What must be true?', pointValue: 1, options: [{ id: 'A', label: 'They must have the same distance' }, { id: 'B', label: 'They have the same displacement, but distance can differ' }, { id: 'C', label: 'The longer route has greater displacement' }] },
+    { id: 'C3', variantId: 'DEMO-C3', kind: 'CONCEPT_PROBE', title: 'Zero Displacement', prompt: 'A pirate travels and finishes at the start. What is the displacement?', pointValue: 1, options: [{ id: 'A', label: 'The total trip in the final direction' }, { id: 'B', label: '0 m with no direction' }, { id: 'C', label: '0 m east' }] },
+  ],
+}
