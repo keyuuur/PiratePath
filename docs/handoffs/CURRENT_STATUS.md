@@ -6,13 +6,13 @@ Last verified: 2026-07-26
 
 - Branch: `overhaul/phaser-v2`
 - Base commit: `8981dc7`
-- Latest published checkpoint before this closeout: `06f89a4`
+- Latest published implementation checkpoint: `4dfd0d4`
 - Worktree: isolated sibling of the original legacy checkout
 - Local implementation: functional V2 plus a verified settings-label polish; the larger visual update is still in its selection stage
 - V2 deployment: not created
 - Live legacy deployment: intentionally unchanged and still available as rollback
 - GitHub branch: published at `origin/overhaul/phaser-v2`
-- Pull request: none before this closeout
+- Draft pull request: [#1, Phaser V2 classroom game overhaul](https://github.com/keyuuur/PiratePath/pull/1)
 - Merge and production deployment: not performed
 
 ## Implemented experience
