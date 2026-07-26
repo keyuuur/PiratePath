@@ -2,7 +2,7 @@
 
 ## Purpose and audience
 
-Pirate Path is a solo, iPad-first formative learning game for ninth-grade science. A representative student should finish in 15-18 minutes, with a 20-minute classroom ceiling. The game teaches students to:
+Pirate Path is a solo, iPad-first formative learning game for a remedial ninth-grade science class. A representative student should finish in 15-18 minutes, with a 20-minute classroom ceiling. The game teaches students to:
 
 - total the complete traveled path as distance;
 - compare start and finish to determine displacement;
@@ -19,7 +19,11 @@ The required sequence is:
 - Guided practice is required, unscored, retry-friendly, and gives a targeted hint after the first error and a worked example after the second.
 - The assessment is worth 20 points. Responses remain editable until final confirmation, and correctness is withheld until the canonical result is stored.
 - V2 uses integer meters and cardinal or zero displacement. Diagonal displacement, speed, velocity, multiplayer, and direct ClassPoints integration are out of scope.
-- One grid interval is `1 m`. Distance is the sum of every segment. Displacement magnitude uses Euclidean magnitude, never the legacy Manhattan calculation.
+- All student movement uses North, East, South, or West in one-grid-interval steps. Every completed instructional or assessed displacement must be horizontal, vertical, or zero: the start and finish share a row, share a column, or coincide.
+- Students are not expected to use the Pythagorean theorem or calculate a diagonal hypotenuse. Generic Euclidean math may remain inside validation code only to reject invalid diagonal content; it is not a student-facing skill or supported assessment path.
+- One grid interval is `1 m`. Distance is the sum of every segment. Valid displacement magnitude is the integer length of the horizontal or vertical start-to-finish vector.
+- A completed dashed blue displacement vector displays its integer magnitude, such as `3 m`, during both guided practice and scored A1-A5 missions. The label is a recognition scaffold: it does not fill the answer, choose the direction, reveal correctness, or replace the student's required magnitude and direction responses.
+- The traveled route remains visually distinct and unnumbered so students must still calculate total distance. During vector-placement practice, the magnitude label appears only after the student connects start to finish.
 - Mastery tiers are 18-20, 16-17, 14-15, 10-13, and 0-9, with the approved direction and C3 gates.
 - The teacher-only ClassPoints recommendation equals the final mastery tier.
 

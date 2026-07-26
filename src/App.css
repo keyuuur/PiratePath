@@ -47,7 +47,6 @@
 .save-state.saved { color: #8fe1b5; }
 .settings-bar { display: flex; justify-content: flex-end; gap: 0.5rem; padding: 0.55rem clamp(1rem, 4vw, 2.5rem); background: #dfece8; border-bottom: 1px solid var(--line); }
 .icon-button { min-height: 48px; padding: 0.42rem 0.7rem; border-width: 1px; font-size: 0.82rem; }
-.icon-button span:first-child { font-weight: 900; margin-right: 0.25rem; }
 
 .centered-screen { min-height: calc(100svh - 130px); display: grid; place-items: center; padding: 1.5rem; }
 .loading-card { padding: 1rem 1.25rem; border: 2px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--navy-dark); font-weight: 850; box-shadow: var(--shadow); }

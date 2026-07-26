@@ -5,6 +5,7 @@ import { buildGameContent } from '../../src/app/contentAdapter'
 import { DEMO_PUBLIC_MANIFEST } from '../../src/app/demoContent'
 import { JoinScreen } from '../../src/ui/JoinScreen'
 import { ReviewScreen } from '../../src/ui/ReviewScreen'
+import { SettingsBar } from '../../src/ui/SettingsBar'
 
 describe('student screens', () => {
   it('allows a safe demo join without a classroom code', async () => {
@@ -41,5 +42,20 @@ describe('student screens', () => {
     expect(screen.getByRole('button', { name: 'Final Submit' })).toBeDisabled()
     expect(screen.queryByText(/correct measurements/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/^correct$/i)).not.toBeInTheDocument()
+  })
+
+  it('shows one visible label per game setting', () => {
+    render(
+      <SettingsBar
+        muted
+        reducedMotion
+        onMutedChange={vi.fn()}
+        onReducedMotionChange={vi.fn()}
+      />,
+    )
+    expect(screen.getAllByText('Muted')).toHaveLength(1)
+    expect(screen.getAllByText('Reduced motion')).toHaveLength(1)
+    expect(screen.getByRole('button', { name: 'Muted' })).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.getByRole('button', { name: 'Reduced motion' })).toHaveAttribute('aria-pressed', 'true')
   })
 })
