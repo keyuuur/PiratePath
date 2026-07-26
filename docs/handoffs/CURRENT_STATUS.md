@@ -108,7 +108,7 @@ Boundary checks:
 - Baseline hashes to recheck before any handoff:
   - `AGENTS.md`: `9741B5D0FAE7F5A929D9F9CF0437C99871009383B02AE86A49A7F73A627FC66A`
   - `KEYUR_WORKFLOW.md`: `D39C3BE309EF2447BA32AFF710C9B8CF09B0AB38A552117677E1CFFD40BC6ABE`
-- Local preservation tags:
+- Local and GitHub preservation tags:
   - `legacy/apps-script-main-8981dc7`
   - `legacy/pirate-lab-ui-273c52d`
   - `legacy/apps-script-refactor-1910a2b`
